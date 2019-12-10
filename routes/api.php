@@ -1,5 +1,6 @@
 <?php
 
+use App\Classes\Zoho\ZOHO_Exec;
 use Illuminate\Http\Request;
 use zcrmsdk\crm\setup\restclient\ZCRMRestClient;
 use zcrmsdk\oauth\ZohoOAuth;
@@ -21,7 +22,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('users', function() {
-    dd(1);
+    $exeZ =new ZOHO_Exec();
+    dd($exeZ->zoho->oAuthClient);
 //    $clientid= '1000.EK6A7WOCPO3D5V5HGGZ8Q14FI91A4H';
 //    $redirect_uri= 'http://dialca-api.test:81/api/token';
 //    $client = new Client();
@@ -52,7 +54,11 @@ Route::get('users', function() {
 //    }
 });
 
-Route::get("token", function(Request $request){
-    $url = $request->code;
-    dd($url);
+Route::get("zoho_redirect", function(Request $request){
+
+    if(!empty($request['code'])){
+        $zoho =new ZOHO_Exec();
+        $zoho->zoho->generateToken($request['code']);
+        //You can get code using Application as well without creating link and authorise.
+    }
 });

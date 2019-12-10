@@ -1,20 +1,27 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Classes\Zoho;
 
-use Illuminate\Http\Request;
 use zcrmsdk\crm\setup\restclient\ZCRMRestClient;
+use zcrmsdk\oauth\ZohoOAuth;
 
-class ZohoAuth {
-    private $oAuthClient=null;
-    private $configuration=null;
+class ZohoAPI
+{
+    public $oAuthClient=null;
+    public $configuration=null;
 
     public function __construct($conf=null) {
+
         if($conf!=null)
             $this->configuration=$conf;
         //Initialize Core SDK library
         ZCRMRestClient::initialize($this->configuration);
         $this->oAuthClient = ZohoOAuth::getClientInstance();
+
+    }
+    //For set all configurations
+    public function setConfiguration($config){
+        $this->configuration=$config;
     }
 
     public function generateToken($grantToken){
@@ -23,6 +30,7 @@ class ZohoAuth {
         return $oAuthTokens = $this->oAuthClient->generateAccessToken($grantToken);
     }
     //This function if access token expire then using refresh token you can generate new Access token
+
     public function refreshToken($refreshToken,$userIdentifier){
         //below is sample refresh token you found and that automatically updated once generate
 
@@ -30,9 +38,4 @@ class ZohoAuth {
         return $oAuthTokens = $this->oAuthClient->generateAccessTokenFromRefreshToken($refreshToken,$userIdentifier);
     }
 
-}
-
-class ZohoCRM extends Controller
-{
-    //
 }
