@@ -21,9 +21,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('users', function() {
+Route::get('/auth', function() {
     $exeZ =new ZOHO_Exec();
-    dd($exeZ->zoho->oAuthClient);
+
 //    $clientid= '1000.EK6A7WOCPO3D5V5HGGZ8Q14FI91A4H';
 //    $redirect_uri= 'http://dialca-api.test:81/api/token';
 //    $client = new Client();

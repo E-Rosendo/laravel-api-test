@@ -20,6 +20,7 @@ class ZOHO_Exec
             );
 
         $this->connect_zoho($configuration);
+        return redirect("https://accounts.zoho.com/oauth/v2/auth?scope=ZohoCRM.users.ALL&client_id={$configuration['client_id']}&response_type=code&access_type={"offline"}&redirect_uri={$configuration['redirect_uri']}")
     }
 
     Private function connect_zoho($conf){
